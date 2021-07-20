@@ -8,7 +8,7 @@ defmodule LiveViewWeb.LightLive do
 
   def render(assigns) do
     ~L"""
-    <h1>Front Porch Light</h1>
+    <h1>Light Me Up!</h1>
     <div id="light">
       <div class="meter">
         <span style="width: <%= @brightness %>%">
@@ -16,16 +16,20 @@ defmodule LiveViewWeb.LightLive do
         </span>
       </div>
 
+      <button phx-click="random">
+        <img src="images/random.svg" alt="random">
+      </button>
+
       <button phx-click="off">
-        <img src="images/light-off.svg" alt="light-on">
+        <img src="images/light-off.svg" alt="light-off">
       </button>
 
       <button phx-click="down">
-        <img src="images/down.svg" alt="light-on">
+        <img src="images/down.svg" alt="down">
       </button>
 
       <button phx-click="up">
-        <img src="images/up.svg" alt="light-on">
+        <img src="images/up.svg" alt="up">
       </button>
 
       <button phx-click="on">
@@ -34,6 +38,11 @@ defmodule LiveViewWeb.LightLive do
 
     </div>
     """
+  end
+
+  def handle_event("random", _, socket) do
+    socket = assign(socket, :brightness, Enum.random(1..100))
+    {:noreply, socket}
   end
 
   def handle_event("off", _, socket) do
