@@ -16,23 +16,43 @@ defmodule LiveViewWeb.LightLive do
         </span>
       </div>
 
-      <button>
+      <button phx-click="off">
         <img src="images/light-off.svg" alt="light-on">
       </button>
 
-      <button>
+      <button phx-click="down">
         <img src="images/down.svg" alt="light-on">
       </button>
 
-      <button>
+      <button phx-click="up">
         <img src="images/up.svg" alt="light-on">
       </button>
 
-      <button>
+      <button phx-click="on">
         <img src="images/light-on.svg" alt="light-on">
       </button>
 
     </div>
     """
+  end
+
+  def handle_event("off", _, socket) do
+    socket = assign(socket, :brightness, 0)
+    {:noreply, socket}
+  end
+
+  def handle_event("down", _, socket) do
+    socket = update(socket, :brightness, &(&1 - 10))
+    {:noreply, socket}
+  end
+
+  def handle_event("up", _, socket) do
+    socket = update(socket, :brightness, &(&1 + 10))
+    {:noreply, socket}
+  end
+
+  def handle_event("on", _, socket) do
+    socket = assign(socket, :brightness, 100)
+    {:noreply, socket}
   end
 end
