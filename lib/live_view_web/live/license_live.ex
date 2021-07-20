@@ -2,6 +2,7 @@ defmodule LiveViewWeb.LicenseLive do
   use LiveViewWeb, :live_view
 
   alias LiveView.Licenses
+  import Number.Currency
 
   def mount(_params, _session, socket) do
     socket = assign(socket, seats: 2, amount: Licenses.calculate(2))
@@ -26,7 +27,7 @@ defmodule LiveViewWeb.LicenseLive do
             </form>
 
             <div class="amount">
-              <%= @amount %>
+              <%= number_to_currency(@amount) %>
             </div>
           </div>
         </div>
