@@ -11,7 +11,7 @@ defmodule LiveViewWeb.LicenseLive do
 
   def render(assigns) do
     ~L"""
-      <h1>Team Liceses</h1>
+      <h1>Team Licenses</h1>
       <div id="license">
         <div class="card">
           <div class="content">
@@ -33,5 +33,15 @@ defmodule LiveViewWeb.LicenseLive do
         </div>
       </div>
     """
+  end
+
+  def handle_event("update", %{"seats" => seats}, socket) do
+    seats = String.to_integer(seats)
+    socket = assign(
+      socket,
+      seats: seats,
+      amount: Licenses.calculate(seats)
+    )
+    {:noreply, socket}
   end
 end
