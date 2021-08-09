@@ -4,6 +4,10 @@ defmodule LiveViewWeb.SalesDashboardLive do
   alias LiveView.Sales
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      :timer.send_interval(1000, self(), :tick)
+    end
+
     socket = assign_stats(socket)
     {:ok, socket}
   end
@@ -45,6 +49,11 @@ defmodule LiveViewWeb.SalesDashboardLive do
       </button>
     </div>
     """
+  end
+
+  def handle_info(:tick, socket) do
+    socket = assign_stats(socket)
+    {:noreply, socket}
   end
 
   defp assign_stats(socket) do
