@@ -4,12 +4,7 @@ defmodule LiveViewWeb.SalesDashboardLive do
   alias LiveView.Sales
 
   def mount(_params, _session, socket) do
-    socket = assign(
-      socket,
-      new_orders: Sales.new_orders(),
-      sales_amount: Sales.sales_amount(),
-      satisfaction: Sales.satisfaction()
-    )
+    socket = assign_stats(socket)
     {:ok, socket}
   end
 
@@ -50,5 +45,19 @@ defmodule LiveViewWeb.SalesDashboardLive do
       </button>
     </div>
     """
+  end
+
+  defp assign_stats(socket) do
+    assign(
+      socket,
+      new_orders: Sales.new_orders(),
+      sales_amount: Sales.sales_amount(),
+      satisfaction: Sales.satisfaction()
+    )
+  end
+
+  def handle_event("refresh", _params, socket) do
+    socket = assign_stats(socket)
+    {:noreply, socket}
   end
 end
